@@ -1,0 +1,14 @@
+[Unit]
+Description=Gunicorn server for superlists-staging.orabimango.com
+
+[Service]
+Restart=on-failure
+User=elspeth
+WorkingDirectory=/home/elspeth/sites/staging
+EnvironmentFile=/home/elspeth/sites/staging/.env
+
+ExecStart=/home/elspeth/sites/staging/virtualenv/bin/gunicorn --bind unix:/tmp/staging.socket superlists.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
+
