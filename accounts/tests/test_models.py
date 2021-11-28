@@ -15,10 +15,22 @@ class UserModelTest(TestCase):
         user = User(email='a@b.com')
         self.assertEqual(user.pk, 'a@b.com')
 
+    def test_no_problem_with_auth_login(self):
+        user = User.objects.create(email='edith@example.com')
+        user.backend = ''
+        request = self.client.request().wsgi_request
+        auth.login(request, user)
+
 class TokenModelTest(TestCase):
 
     def test_links_user_with_auto_generated_uid(self):
         token1 = Token.objects.create(email='a@b.com')
         token2 = Token.objects.create(email='a@b.com')
         self.assertNotEqual(token1.uid, token2.uid)
+
+class SendLoginEmailViewTest(TestCase):
+
+    def test_redirects_to_home_page(self):
+        response = self.client.post('/accounts/send_login_email', data={'email': 'edith@example.com'})
+        self.assertRedirects(response, '/')
 
