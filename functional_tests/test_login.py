@@ -57,10 +57,9 @@ class LoginTest(FunctionalTest):
         # message stating that email has been sent
         self.wait_for(lambda: self.assertIn('Check your email', self.browser.find_element_by_tag_name('body').text))
 
-        # see email message
-        email = mail.outbox[0]
-        self.assertIn(test_email, email.to)
-        self.assertEqual(email.subject, SUBJECT)
+        # see email message in mailbox
+        body = self.wait_for_email(test_email, SUBJECT)
+        
 
         # the url link is in the mail
         self.assertIn('Use this link to log in', body)
