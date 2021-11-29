@@ -1,8 +1,10 @@
+import os
 import random
 from fabric.contrib.files import append, exists
 from fabric.api import cd, env, local, run
 
 REPO_URL = 'https://github.com/KareemAbuzaid/python-ttd-book.git'
+
 
 def _get_latest_source():
     if exists('.git'):
@@ -25,6 +27,8 @@ def _create_or_update_dotenv():
     if 'DJANGO_SECRET_KEY' not in current_contents:
         new_secret = ''.join(random.SystemRandom().choices('abcdefghijklmnopqrstuvwxyz0123456789', k=50))
         append('.env', f'DJANGO_SECRET_KEY={new_secret}')
+    email_password = os.environ['EMAIL_PASSWORD']
+    append('.env', f'EMAIL_PASSWORD={email_password}')
 
 def _update_static_files():
     run('./virtualenv/bin/python manage.py collectstatic --noinput')
