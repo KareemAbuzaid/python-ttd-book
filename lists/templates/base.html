@@ -32,6 +32,19 @@
         </div>
       </nav>
 
+      {% if user.email %}
+        <ul class="nav navbar-nav navbar-left">
+          <li><a href="#">My lists</a></li>
+	</ul>
+	<ul class="nav navbar-nav navbar-left">
+	  <li class="navbar-text">Logged in as {{ user.email }}</li>
+	  <li><a href="{% url 'logout' %}">Log out</a></li>
+	</ul>
+        <ul class="nav navbar-nav navbar-left">
+	  <li><a href="{% url 'my_lists' user.email %}">My lists</a></li>
+	</ul>
+      {% endif %}
+
       {% if messages %}
       	<div class="row">
 	  <div class="col-md-8">
@@ -62,10 +75,17 @@
           </div>
         </div>
       </div>
-
+      
       <div class="row">
         <div class="col-md-6 col-md-offset-3">
           {% block table %}
+          {% endblock %}
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          {% block extra_content %}
           {% endblock %}
         </div>
       </div>
