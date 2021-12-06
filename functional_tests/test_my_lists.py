@@ -47,8 +47,8 @@ class MyListsTest(FunctionalTest):
         # user can see that his/her list is there and correctly
         # labeled
         self.wait_for(lambda: self.browser.find_element_by_link_text('List item 1'))
-        self.browser.find_element_by_link_text('List item 2').click()
-        self.wait_for(lambda: self.assertEqual(self.browser.current_url, first_link_url))
+        self.browser.find_element_by_link_text('List item 1').click()
+        self.wait_for(lambda: self.assertEqual(self.browser.current_url, first_list_url))
 
         self.wait_for(lambda: self.assertEqual(self.browser.current_url, first_list_url))
 
